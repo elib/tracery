@@ -24,17 +24,6 @@ grammar.addModifiers(Modifiers.baseEngModifiers);
 puts grammar.flatten("#origin#")
 ```
 
-### Known issues
-
-* Currently does not support rulesets with conditionals, distributions, or ranked fallbacks
-* No current plan to support visualizations
-* Not yet compatible with `:symbolic` hash inputs
-
-### TODO
-
-* Create new modifiers based on Rails inflection library 
-
-
 ## Basic usage
 
 ### Create a grammar
