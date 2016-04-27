@@ -7,7 +7,7 @@ This is version 0.7
 
 ## Tracery for Ruby
 
-Tracery for Ruby is ported and maintained by Eli Brody.
+Tracery for Ruby is ported and maintained by Eli Brody. Javascript tracery can be found [here](https://github.com/galaxykate/tracery).
 
 [![Gem Version](https://badge.fury.io/rb/tracery.svg)](https://badge.fury.io/rb/tracery)
 
