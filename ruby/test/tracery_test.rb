@@ -67,7 +67,7 @@ class TraceryTest < Test::Unit::TestCase
             src: "A tag can have inner actions: \"\\#\\[myName:\\#name\\#\\]story\\[myName:POP\\]\\#\""
         },
         escapeBroken: {
-            src: "\"#name#\" should expand to a name. But \\[ this and \\] should be literal square brackets. And again, just another name: \"#name#\". But for some reason it gets put here: "
+            src: "\"#name#\" should expand to a name. But \\[ this and \\] should be literal square brackets. And again, just another name: \"#name#\". But for some reason it gets put here at the end! Fixed now....."
         },
         emoji: {
             src: "💻🐋🌙🏄🍻"

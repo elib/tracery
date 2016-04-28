@@ -54,7 +54,7 @@ module Tracery
         end
         rawSubstring = ""
         if(!lastEscapedChar.nil?) then
-            rawSubstring = escapedSubstring + "\\" + rule[(lastEscapedChar+1)..-1]
+            rawSubstring = escapedSubstring + "\\" + rule[(lastEscapedChar+1)...finish]
         else
             rawSubstring = rule[start...finish]
         end
