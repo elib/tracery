@@ -11,6 +11,8 @@ Tracery for Ruby is ported and maintained by Eli Brody. Javascript tracery can b
 
 [![Gem Version](https://badge.fury.io/rb/tracery.svg)](https://badge.fury.io/rb/tracery)
 
+[![Build Status](https://travis-ci.org/elib/tracery.svg)](https://travis-ci.org/elib/tracery)
+
 ### Basic Ruby usage
 
 Using the ruby port is very similar to the Javascript version (see below). First, install the tracery gem: `gem install tracery`.

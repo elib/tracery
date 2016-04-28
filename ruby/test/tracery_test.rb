@@ -32,16 +32,19 @@ class TraceryTest < Test::Unit::TestCase
 
     def test_main_expansion_tests
         tests = {
-            plaintextShort: {
-               src: "a"
-            },
-            plaintextLong: {
-                src: "Emma Woodhouse, handsome, clever, and rich, with a comfortable home and happy disposition, seemed to unite some of the best blessings of existence; and had lived nearly twenty-one years in the world with very little to distress or vex her."
-            },
+        plaintextShort: {
+           src: "a",
+           expected: "a"
+        },
+        plaintextLong: {
+            src: "Emma Woodhouse, handsome, clever, and rich, with a comfortable home and happy disposition, seemed to unite some of the best blessings of existence; and had lived nearly twenty-one years in the world with very little to distress or vex her.",
+            expected: "Emma Woodhouse, handsome, clever, and rich, with a comfortable home and happy disposition, seemed to unite some of the best blessings of existence; and had lived nearly twenty-one years in the world with very little to distress or vex her."
+        },
 
         # Escape chars
         escapeCharacter: {
-            src: "\\#escape hash\\# and escape slash\\\\"
+            src: "\\#escape hash\\# and escape slash\\\\",
+            expected: "#escape hash# and escape slash\\"
         },
 
         escapeDeep: {
@@ -49,32 +52,40 @@ class TraceryTest < Test::Unit::TestCase
         },
 
         escapeQuotes: {
-            src: "\"test\" and \'test\'"
+            src: "\"test\" and \'test\'",
+            expected: "\"test\" and \'test\'"
         },
         escapeBrackets: {
-            src: "\\[\\]"
+            src: "\\[\\]",
+            expected: "[]"
         },
         escapeHash: {
-            src: "\\#"
+            src: "\\#",
+            expected: "#"
         },
         unescapeCharSlash: {
-            src: "\\\\"
+            src: "\\\\",
+            expected: "\\"
         },
         escapeMelange1: {
-            src: "An action can have inner tags: \[key:\#rule\#\]"
+            src: "An action can have inner tags: \\[key:\\#rule\\#\\]",
+            expected: "An action can have inner tags: [key:#rule#]"
         },
         escapeMelange2: {
-            src: "A tag can have inner actions: \"\\#\\[myName:\\#name\\#\\]story\\[myName:POP\\]\\#\""
+            src: "A tag can have inner actions: \"\\#\\[myName:\\#name\\#\\]story\\[myName:POP\\]\\#\"",
+            expected: "A tag can have inner actions: \"#[myName:#name#]story[myName:POP]#\""
         },
         escapeBroken: {
             src: "\"#name#\" should expand to a name. But \\[ this and \\] should be literal square brackets. And again, just another name: \"#name#\". But for some reason it gets put here at the end! Fixed now....."
         },
         emoji: {
-            src: "💻🐋🌙🏄🍻"
+            src: "💻🐋🌙🏄🍻",
+            expected: "💻🐋🌙🏄🍻"
         },
 
         unicode: {
-            src: "&\\#x2665; &\\#x2614; &\\#9749; &\\#x2665;"
+            src: "&\\#x2665; &\\#x2614; &\\#9749; &\\#x2665;",
+            expected: "&#x2665; &#x2614; &#9749; &#x2665;"
         },
 
         svg: {
@@ -144,7 +155,13 @@ class TraceryTest < Test::Unit::TestCase
             is_error = v[:error].nil? ? false : v[:error]
             root = @grammar.expand(source)
             all_errors = root.allErrors
-            puts "\t#{root.finishedText}"
+
+            if(!v[:expected].nil?) then
+                assert(root.finishedText == v[:expected], "\"#{root.finishedText}\" did not match \"#{v[:expected]}\"")
+            else
+                puts "\t#{root.finishedText}"
+            end
+
             if(is_error) then
                 puts "\tErrors: #{all_errors}"
                 refute(all_errors.empty?, "Expected errors.")
