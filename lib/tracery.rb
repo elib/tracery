@@ -6,6 +6,21 @@ module Tracery
     def createGrammar(raw)
         return Grammar.new(raw)
     end
+
+    #handle random and replacement random
+    @@internal_rnd = Random.new
+    @@rnd_proc = lambda { @@internal_rnd.rand }
+    def self.setRnd(lambdaproc) 
+        @@rnd_proc = lambdaproc
+    end
+
+    def self.resetRnd
+        setRnd(lambda { @@internal_rnd.rand })
+    end
+
+    def self.random
+        return @@rnd_proc.call 
+    end
     
     def parseTag(tagContents)
         parsed = {
@@ -405,7 +420,6 @@ class RuleSet
         @raw = raw
         @grammar = grammar
         @falloff = 1
-        @random = Random.new
         
         @defaultUses = {}
         
@@ -444,7 +458,7 @@ class RuleSet
                 when "falloff" then
                     @errors << "Falloff distribution not yet implemented"
                 else
-                    index = ((@random.rand ** @falloff) * @defaultRules.size).floor
+                    index = ((Tracery.random ** @falloff) * @defaultRules.size).floor
             end
         
             @defaultUses[index] = (@defaultUses[index] || 0) + 1
