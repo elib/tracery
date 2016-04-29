@@ -2,11 +2,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## UNRELEASED
+## 0.7.6 - 2016-04-29
 ### Added
 - This CHANGELOG.md file
 - [Ability to use `:symbolic` hashes](https://github.com/elib/tracery/pull/13)
 - Using Travis CI to do basic testing 
+- [Ability to override random function](https://github.com/elib/tracery/issues/3)
 
 ### Changed
 - Rearranged repo (removed all javascript sources, add version file, etc.)

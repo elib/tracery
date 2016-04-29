@@ -7,6 +7,7 @@ require "mods-eng-basic"
 class TraceryTest < Test::Unit::TestCase
     include Tracery
     def setup
+        Tracery.resetRnd
         @grammar = createGrammar({
             "deepHash" => ["\\#00FF00", "\\#FF00FF"],
             "deeperHash" => ["#deepHash#"],
@@ -180,4 +181,20 @@ class TraceryTest < Test::Unit::TestCase
         assert(root.finishedText == "here's the origin, with an extra piece of text.")
     end
 
+    def test_set_rnd
+        Tracery.setRnd(lambda { return 0 })
+        assert(Tracery.random == 0)
+
+        Tracery.setRnd(lambda { return 1 })
+        assert(Tracery.random == 1)
+
+        Tracery.resetRnd
+        refute(Tracery.random == 1)
+    end
+
+    def test_deterministic_rules
+        Tracery.setRnd(lambda { return 0 })
+        text = @grammar.flatten("#origin#")
+        assert(text == "Cheri was a great baker, and this song tells of their adventure. Cheri baked bread, then they baked bread, then they went home to read a book.")
+    end
 end

@@ -55,19 +55,20 @@ expanded_node = grammar.expand("#origin#")
 
 ### Making Tracery deterministic
 
-*TODO: this is not yet implemented in Ruby Tracery.*
-
-By default, Tracery uses Math.random() to generate random numbers. If you need Tracery to be deterministic, you can make it use your own random number generator using:
+By default, Tracery uses `Random#rand` to generate random numbers. If you need Tracery to be deterministic, you can make it use your own random number generator using:
 
 ```ruby
-tracery.setRng(myRng)
+Tracery.setRng(rng_lambda)
 ```
 
-where myRng is a function that, [like Math.random()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random), returns a floating-point, pseudo-random number in the range [0, 1).
+where `rng_lambda` is a lambda that, [like Random#rand](http://ruby-doc.org/core-2.0.0/Random.html#method-i-rand), returns a floating-point, pseudo-random number in the range `[0, 1)`. By using a local random number generator that takes a seed and controlling this seed, you can make Tracery's behavior completely deterministic.
 
-By using a local random number generator that takes a seed and controlling this seed, you can make Tracery's behavior completely deterministic.
+Usage example:
+```ruby
+Tracery.setRng(lambda { return 0.5 })
+```
 
-(Alternatively, you could use something like [seedrandom](https://github.com/davidbau/seedrandom) to make Math.random() seedable, but then you need to be very careful about who uses Math.random() - it effectively becomes a global variable that anyone can modify. Using a local random number generator - perhaps from seedrandom - instead of replacing Math.random() avoids this problem.)
+Note: Beware, this lambda is set *globally*, for all Tracery expansions.
 
 ## Library Concepts
 ### Grammar
