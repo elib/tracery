@@ -1,5 +1,5 @@
 
-file_list = Dir["lib/*.rb", "Rakefile"]
+file_list = Dir["lib/*.rb", "Rakefile", "CHANGELOG.md", "LICENSE.txt"]
 test_file_list = Dir["test/*.rb"]
 
 require "./lib/version"
