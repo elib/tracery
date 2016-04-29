@@ -172,4 +172,12 @@ class TraceryTest < Test::Unit::TestCase
         }
     end
 
+    def test_symbolic_hash_grammars
+        grammar = createGrammar({origin: "here's the origin, with an #extra#.", extra: "extra piece of text"})
+        root = grammar.expand("#origin#")
+        all_errors = root.allErrors
+        assert(all_errors.empty?, "No errors should be generated")
+        assert(root.finishedText == "here's the origin, with an extra piece of text.")
+    end
+
 end

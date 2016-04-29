@@ -527,6 +527,7 @@ class Grammar
     end
     
     def loadFromRawObj(raw)
+        raw = Hash[raw.collect{|k,v| [k.to_s, v]}]
         @raw = raw
         @symbols = {}
         @subgrammars = []
