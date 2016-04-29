@@ -7,70 +7,61 @@ This is version 0.7
 
 ## Tracery for Ruby
 
-Tracery for Ruby is ported and maintained by Eli Brody. Javascript tracery can be found [here](https://github.com/galaxykate/tracery).
+Tracery for Ruby is ported and maintained by Eli Brody. Javascript tracery can be found [here](https://github.com/galaxykate/tracery). (This text has been adapted to the Ruby syntax, but it is based on the original readme file.)
 
 [![Gem Version](https://badge.fury.io/rb/tracery.svg)](https://badge.fury.io/rb/tracery)
 
 [![Build Status](https://travis-ci.org/elib/tracery.svg)](https://travis-ci.org/elib/tracery)
 
-### Basic Ruby usage
-
-Using the ruby port is very similar to the Javascript version (see below). First, install the tracery gem: `gem install tracery`.
-
-```ruby
-require 'tracery'
-require 'mods-eng-basic'
-include Tracery
-grammar = createGrammar({"origin" => "foo"});
-grammar.addModifiers(Modifiers.baseEngModifiers);
-puts grammar.flatten("#origin#")
-```
-
 ## Basic usage
 
 ### Create a grammar
 
+Using the ruby port is very similar to the Javascript version. First, install the tracery gem: `gem install tracery`.
+
 Create an empty grammar:
 
-    grammar = tracery.createGrammar();
+```ruby
+require 'tracery'
+include Tracery
+grammar = createGrammar();
+```
 
 Create a grammar from a Tracery-formatted object:
-	
-    grammar = tracery.createGrammar({origin:"foo"});
 
-Add modifiers to the grammar (import "mods-eng-basic.js" for basic English modifiers, or write your own)
+```ruby
+grammar = createGrammar({origin: "foo"});
+```
 
-    grammar.addModifiers(baseEngModifiers);
-    
+Add modifiers to the grammar (`mods-eng-basic.rb` for basic English modifiers, or write your own)
+
+```ruby
+require 'mods-eng-basic'
+grammar.addModifiers(Modifiers.baseEngModifiers);
+```
+
 ### Expand rules 
 Get the fully-expanded string from a rule
 
-    grammar.flatten("#origin#");
+```ruby
+expanded_text = grammar.flatten("#origin#")
+```
 
 Get the fully-expanded node from a rule, this will return a root node containing a full expanded tree with many potentially interesting properties, including "finishedText" for each node.
 
-    grammar.expand("#origin#");
-    
-Get the root node from a rule *not* fully expanded (this allows for animating the expansion of the tree) TODO, this is still buggy and does not correctly set the "finishedText"
-
-    grammar.expand("#origin#", true);
-    
-    // animate the expansion over time
-    var stepTimer = setInterval(function() {
-                   app.stepIterator.node.expand(true);
-                   var action = app.stepIterator.next();
-                   if (!action)
-                        clearInterval(stepTimer);
-                   refreshVisualization();
-                   refreshGrammarOutput();
-                }, 40);
-    
+```ruby
+expanded_node = grammar.expand("#origin#")
+```
 
 ### Making Tracery deterministic
 
+*TODO: this is not yet implemented in Ruby Tracery.*
+
 By default, Tracery uses Math.random() to generate random numbers. If you need Tracery to be deterministic, you can make it use your own random number generator using:
 
-    tracery.setRng(myRng);
+```ruby
+tracery.setRng(myRng)
+```
 
 where myRng is a function that, [like Math.random()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random), returns a floating-point, pseudo-random number in the range [0, 1).
 
@@ -102,7 +93,7 @@ Putting a **key** in hashtags, in a Tracery syntax object, will create a expansi
 Each top-level key-value pair in the raw JSON object creates a **symbol**.  The symbol's *key* is set from the key, and the *value* determines the **ruleset**.
 
 ### Modifier
-A function that takes a string (and optionally parameters) and returns a string.  A set of these is included in mods-eng-basic.js.  Modifiers are applied, in order, after a tag is fully expanded.
+A function that takes a string (and optionally parameters) and returns a string.  A set of these is included in `mods-eng-basic.rb`.  Modifiers are applied, in order, after a tag is fully expanded.
 
 To apply a modifier, add its name after a period, after the tag's main symbol:
 	#animal.capitalize#
