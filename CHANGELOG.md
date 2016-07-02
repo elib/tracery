@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 0.7.7 - 2016-07-02
+### Fixed
+- [Capitalize downcases everything but first letter](https://github.com/elib/tracery/issues/20)
+
 ## 0.7.6 - 2016-04-29
 ### Added
 - This CHANGELOG.md file

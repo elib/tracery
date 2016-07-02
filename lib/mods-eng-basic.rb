@@ -21,6 +21,15 @@ module Modifiers
             return s + "s"
         end
     end
+
+    def self.capitalize(s)
+        head = s[0]
+        remainder = s[1..-1]
+        return s if(head.nil?)
+        head.upcase!
+        return head if remainder.nil?
+        return head + remainder
+    end
     
     def self.baseEngModifiers
         {
@@ -29,11 +38,11 @@ module Modifiers
             end,
 
             "capitalizeAll" => lambda do |s, parameters|
-                return s.gsub(/\w+/) {|word| word.capitalize}
+                return s.gsub(/\w+/) {|word| capitalize word}
             end,
             
             "capitalize" => lambda do |s, parameters|
-                return s.capitalize
+                return capitalize s
             end,
             
             "a" => lambda do |s, parameters|

@@ -26,6 +26,10 @@ class TraceryTest < Test::Unit::TestCase
             "monster" => ["dragon", "ogre", "witch", "wizard", "goblin", "golem", "giant", "sphinx", "warlord"],
             "setPronouns" => ["[heroThey:they][heroThem:them][heroTheir:their][heroTheirs:theirs]", "[heroThey:she][heroThem:her][heroTheir:her][heroTheirs:hers]", "[heroThey:he][heroThem:him][heroTheir:his][heroTheirs:his]"],
             "setOccupation" => ["[occupation:baker][didStuff:baked bread,decorated cupcakes,folded dough,made croissants,iced a cake]", "[occupation:warrior][didStuff:fought #monster.a#,saved a village from #monster.a#,battled #monster.a#,defeated #monster.a#]"],
+            "capitalizeMe" => "SOME CAPITAL LETTERS",
+            "capitalizeMore" => "this sentence HAS CAPITALS IN IT",
+            "empty" => "",
+            "single" => "a",
             "origin" => ["#[#setPronouns#][#setOccupation#][hero:#name#]story#"]
         })
         @grammar.addModifiers(Modifiers.baseEngModifiers)
@@ -113,6 +117,31 @@ class TraceryTest < Test::Unit::TestCase
             src: "[pet:#animal#]#nonrecursiveStory# -> #nonrecursiveStory.replace(beach,mall)#"
         },
 
+        modifierCapitalize: {
+            src: "#capitalizeMe.capitalize#",
+            expected: "SOME CAPITAL LETTERS"
+        },
+
+        modifierCapitalizeMore: {
+            src: "#capitalizeMore.capitalize#",
+            expected: "This sentence HAS CAPITALS IN IT"
+        },
+
+        modifierCapitalizeMoreEach: {
+            src: "#capitalizeMore.capitalizeAll#",
+            expected: "This Sentence HAS CAPITALS IN IT"
+        },
+
+        modifierCapitalizeEmpty: {
+            src: "#empty.capitalize#",
+            expected: ""
+        },
+
+        modifierCapitalizeSingle: {
+            src: "#single.capitalize#",
+            expected: "A"
+        },
+
         recursivePush: {
            src: "[pet:#animal#]#recursiveStory#"
         },
@@ -148,7 +177,6 @@ class TraceryTest < Test::Unit::TestCase
         }
         }
 
-        puts
         tests.each { |k,v|
             puts "#{k}: "
             @grammar.clearState
@@ -157,18 +185,19 @@ class TraceryTest < Test::Unit::TestCase
             root = @grammar.expand(source)
             all_errors = root.allErrors
 
-            if(!v[:expected].nil?) then
-                assert(root.finishedText == v[:expected], "\"#{root.finishedText}\" did not match \"#{v[:expected]}\"")
-            else
-                puts "\t#{root.finishedText}"
+            expected = v[:expected]
+
+            if(!expected.nil?) then
+                assert(root.finishedText == expected, "\"#{root.finishedText}\" did not match \"#{expected}\"")
             end
 
             if(is_error) then
-                puts "\tErrors: #{all_errors}"
                 refute(all_errors.empty?, "Expected errors.")
             else
                 assert(all_errors.empty?, "Expected no errors.")
-                refute(root.finishedText.empty?, "Expected non-empty output.")
+                if(!expected.nil? && !expected.empty?) then
+                    refute(root.finishedText.empty?, "Expected non-empty output.")
+                end
             end
         }
     end
