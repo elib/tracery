@@ -58,14 +58,14 @@ expanded_node = grammar.expand("#origin#")
 By default, Tracery uses `Random#rand` to generate random numbers. If you need Tracery to be deterministic, you can make it use your own random number generator using:
 
 ```ruby
-Tracery.setRng(rng_lambda)
+Tracery.setRnd(rng_lambda)
 ```
 
 where `rng_lambda` is a lambda that, [like Random#rand](http://ruby-doc.org/core-2.0.0/Random.html#method-i-rand), returns a floating-point, pseudo-random number in the range `[0, 1)`. By using a local random number generator that takes a seed and controlling this seed, you can make Tracery's behavior completely deterministic.
 
 Usage example:
 ```ruby
-Tracery.setRng(lambda { return 0.5 })
+Tracery.setRnd(lambda { return 0.5 })
 ```
 
 Note: Beware, this lambda is set *globally*, for all Tracery expansions.
